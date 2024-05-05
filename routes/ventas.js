@@ -13,9 +13,8 @@ const router = Router();
 
 router.get('/', httpVenta.getVentas1); 
 router.get('/', httpVenta.getVentas); 
-router.get('venta/:id', httpVenta.getVentasId);
-router.get('/fecha', httpVenta.getlistarVentasEntreFechas);
-router.get('/total',httpVenta.getTotalVentas);
+router.get('/:id', httpVenta.getVentasId);
+router.get('/:id', httpVenta.getlistarVentasEntreFechas);
 
 
 
@@ -46,6 +45,14 @@ router.put('/:id',
   ],
 httpVenta.putVentas);
  
+router.put('/listar',
+[
+    check("id", "Se necesita un mongoid valido").isMongoId(),
+    check("id").custom(helpersVentas.validarExistaId),
+    validarCampos,
+  ],
+
+httpVenta.putListar);
 
 
 export default router;

@@ -68,23 +68,33 @@ const httpUsuarios = {
     res.json({ Usuario });
   },
   putUsuariosActivar: async (req, res) => {
-    const { id } = req.params;
-    const Usuario = await usuarios.findByIdAndUpdate(
-      id,
-      { estado: 1 },
-      { new: true }
-    );
-    res.json({ Usuario });
+    try {
+      const { id } = req.params;
+
+      const usuarioActivo = await usuarios.findByIdAndUpdate(
+        id, 
+        { estado: 1 }, 
+        { new: true });
+     
+        
+         res.json({  usuarioActivo });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "No se pudo activar la maquina" });
+    }
   },
   putUsuariosDesactivar: async (req, res) => {
-    const { id } = req.params;
-    const Usuario = await usuarios.findByIdAndUpdate(
-      id,
-      { estado: 0 },
-      { new: true }
-    );
-    res.json({ Usuario });
+    try {
+      const { id } = req.params;
+      const usuarioInactivo = await usuarios.findByIdAndUpdate(id, { estado:0 }, { new: true });
+     
+      res.json({ usuarioInactivo });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "No se pudo inactivar la maquina" });
+    }
   },
+
     putListar: async (req, res) => {
     const { id } = req.params;
     const { _id, estado, createAt, ...resto } = req.body;
