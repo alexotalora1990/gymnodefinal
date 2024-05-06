@@ -59,7 +59,7 @@ const httpClientes = {
     try {
       const { plan } = req.params;
 
-      // Consultar clientes por plan
+      
       const clientesPorPlan = await clientes.find({ plan });
 
       res.json({ clientesPorPlan });
@@ -69,7 +69,7 @@ const httpClientes = {
     }
   },
 
-  getClientesPorMesCumpleanios: async (req, res) => {
+  getClientesPorMesCumpleanios: async (req, res) => { 
     try {
       const { mes } = req.params;
 
@@ -123,28 +123,67 @@ const httpClientes = {
       res.status(400).json({ error: "No se pudo crear el registro" });
     }
   },
-  postSeguimiento: async (req, res) => {
-    const { id } = req.params;
-    try {
-      const { fecha, peso, IMC, tBrazo, tPierna, tCintura, estatura } =
-        req.body;
-      const seguimiento = new clientes({
-        id,
-        fecha,
-        peso,
-        IMC,
-        tBrazo,
-        tPierna,
-        tCintura,
-        estatura,
-      });
-      await seguimiento.save();
+//   postSeguimiento: async (req, res) => {
+//     const { id } = req.params;
+   
+//     try {
+//         const { fecha, peso, IMC, tBrazo, tPierna, tCintura, estatura } = req.body;
+//         const seguimiento = [{
+    
+//             fecha,
+//             peso,
+//             IMC,
+//             tBrazo,
+//             tPierna,
+//             tCintura,
+//             estatura,
+//         }];
+//         await clientes.findByIdAndUpdate(id, { $set: { clientes: seguimiento } },{new:true});
+//         console.log(seguimiento, id)
+//         res.json({ seguimiento });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(400).json({ error: "No se pudo crear el registro de seguimiento" });
+//     }
+// },
+
+postSeguimiento: async (req, res) => {
+  const { id } = req.params;
+  console.log("ID del cliente:", req.params.id);
+  try {
+      const { fecha, peso, IMC, tBrazo, tPierna, tCintura, estatura } = req.body;
+      
+     
+      const seguimiento = {
+          fecha,
+          peso,
+          IMC,
+          tBrazo,
+          tPierna,
+          tCintura,
+          estatura,
+      };
+      
+      console.log(seguimiento);
+      
+      const clienteActualizado = await clientes.findByIdAndUpdate(
+          id,
+          { $addToSet: { seguimiento: seguimiento } },
+          { new: true }
+      );
+console.log(clienteActualizado)
+   
+      if (!clienteActualizado) {
+          return res.status(404).json({ error: "Cliente no encontrado" });
+      }
+
+     
       res.json({ seguimiento });
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ error: "No se pudo crear el registro" });
-    }
-  },
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
+  }
+},
 
   putClientes: async (req, res) => {
     try {
@@ -246,3 +285,4 @@ const enviarAlerta = async (ingreso) => {
 
 
 export default httpClientes;
+

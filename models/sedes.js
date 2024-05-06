@@ -11,4 +11,4 @@ const sedeSchema=new mongoose.Schema({
     createAt:{type:Date,default:Date.now},
 })
 
-export default mongoose.model("Sede",sedeSchema)
+export default mongoose.model("Sede",sedeSchema) 

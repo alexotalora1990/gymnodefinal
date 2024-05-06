@@ -54,7 +54,7 @@ router.post(
 );
 
 router.post(
-  "/seguimiento",
+  "/seguimiento/:id",
   [
     check("fecha", "Fecha no puede estar vacía").notEmpty(),
     check("peso", "Peso no puede estar vacío").notEmpty(),
@@ -66,8 +66,6 @@ router.post(
   ],
   httpClientes.postSeguimiento
 );
-
-
 
 router.put(
   "/:id",

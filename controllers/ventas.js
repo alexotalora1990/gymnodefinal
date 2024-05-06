@@ -33,7 +33,7 @@ const httpVenta = {
   getlistarVentasEntreFechas: async (req, res) => {
     try {
       const { fechaInicio, fechaFin } = req.query;
-      const ventasEntreFechas = await ventas.find({
+      const ventasEntreFechas = await Venta.find({
         createAt: { $gte: new Date(fechaInicio), $lte: new Date(fechaFin) }
       });
   
@@ -43,28 +43,6 @@ const httpVenta = {
       res.status(500).json({ error: "Error al buscar las ventas entre las fechas especificadas" });
     }
   },  
-
-  getTotalVentas: async (req, res) => {
-    try {
-      const totalVentas = await ventas.aggregate([
-        {
-          $group: {
-            _id: null,
-            total: { $sum: "$total" }
-          }
-        }
-      ]);
-
-      // Si no hay ventas, devolver 0 como total
-      const total = totalVentas.length > 0 ? totalVentas[0].total : 0;
-
-      res.json({ total });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error al obtener el total de ventas" });
-    }
-  },
-
 
    
   postVentas: async (req, res) => {
@@ -118,6 +96,16 @@ const httpVenta = {
     res.json({ Venta });
   },
  
-  };
+  putListar: async (req, res) => {
+    const { id } = req.params;
+    const { _id, createAt, estado, ...resto } = req.body;
+    console.log(resto);
+
+    const Venta = await ventas.findByIdAndUpdate(id, resto, {
+      new: true,
+    });
+    res.json({ Venta });
+  },
+};
 
 export default httpVenta;

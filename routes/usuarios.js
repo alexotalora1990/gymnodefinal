@@ -40,20 +40,22 @@ router.put('/:id',
 ],
 httpUsuarios.putUsuarios);
 
-router.put('/:id/activar',
+router.put('/activar/:id',
 [
   check("id", "Se necesita un mongoid valido").isMongoId(),
   check("id").custom(helpersUsuarios.validarExistaId),
   validarCampos,
 ],
 httpUsuarios.putUsuariosActivar);
-router.put('/:id/inactivar',
+
+router.put('/desactivar/:id',
 [
   check("id", "Se necesita un mongoid valido").isMongoId(),
   check("id").custom(helpersUsuarios.validarExistaId),
   validarCampos,
 ],
 httpUsuarios.putUsuariosDesactivar);
+
 router.put('/:id/listar',
 [
   check("id", "Se necesita un mongoid valido").isMongoId(),
@@ -64,8 +66,8 @@ httpUsuarios.putListar);
 
 router.post('/login', 
 [
-  check("email", "Se necesita un mongoid valido").notEmpty(),
-  check("password", "Se necesita un mongoid valido").notEmpty(),
+  check("email", "Se necesita un correo  valido").notEmpty(),
+  check("password", "Se necesita una contraseña valido").notEmpty(),
   validarCampos,
 ],
 httpUsuarios.login)

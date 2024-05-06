@@ -2,7 +2,7 @@ import express from "express";
 import "dotenv/config";
 import dbConexion from "./database/cnxmongoose.js";
 import cron from "node-cron";
-import cliente from "./routes/clientes.js";
+import clientes from "./routes/clientes.js";
 import ingresos from "./routes/ingresos.js";
 import mantenimientos from "./routes/mantenimiento.js";
 import maquinas from "./routes/maquinas.js";
@@ -12,12 +12,13 @@ import productos from "./routes/productos.js";
 import sedes from "./routes/sedes.js";
 import ventas from "./routes/ventas.js";
 import usuarios from "./routes/usuarios.js";
-
+import cors from "cors"
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
-app.use("/api/clientes", cliente);
+app.use("/api/clientes", clientes);
 app.use("/api/ingresos", ingresos);
 app.use("/api/mantenimientos", mantenimientos);
 app.use("/api/maquinas",  maquinas);
