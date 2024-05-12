@@ -3,6 +3,7 @@ import httpClientes from "../controllers/clientes.js";
 import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import helpersClientes from "../helpers/clientes.js";
+import helpersPlanes from "../helpers/planes.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
 const router = Router();
@@ -31,8 +32,10 @@ router.post(
     check(
       "fechaNacimiento",
       "La fecha de nacimiento no puede estar vacio"
+
     ).notEmpty(),
-    check("plan", "El plan no puede estar vacio").notEmpty(),
+    check("idPlan", "El plan no puede estar vacio").notEmpty(),
+    check("idPlan", "se requiere un mongoId valido").isMongoId(),
     check("foto", "la foto no puede estar vacio").notEmpty(),
     check("objetivo", "El objetivo no puede estar vacio").notEmpty(),
     check("observaciones", "Las observaciones no puede estar vacio").notEmpty(),
@@ -47,6 +50,9 @@ router.post(
 
     check("email").custom(helpersClientes.validarEmailUnico),
     check("documento").custom(helpersClientes.validarDocumento),
+    check("idPlan").custom(helpersPlanes.validarExistaId),
+
+
     validarCampos,
 
   ],

@@ -1,4 +1,5 @@
 import clientes from "../models/clientes.js";
+import Plan from "../models/planes.js"
 
 import nodemailer from "nodemailer";
 
@@ -55,13 +56,24 @@ const httpClientes = {
     }
   },
 
+  
+
   getClientesPorPlan: async (req, res) => {
     try {
-      const { plan } = req.params;
-
-      
-      const clientesPorPlan = await clientes.find({ plan });
-
+      const { plan: nombrePlan } = req.params;
+  
+     
+      const planExistente = await Plan.findOne({ descripcion: nombrePlan });
+      console.log(nombrePlan);
+      if (!planExistente) {
+        return res.status(404).json({ error: "El plan especificado no existe.", clientesPorPlan: [] });
+      }
+   res.status(500).json({ error: "Error al buscar los clientes por plan" });
+  //   }
+  // },
+     
+      const clientesPorPlan = await clientes.find({ idPlan: planExistente._id });
+  
       res.json({ clientesPorPlan });
     } catch (error) {
       console.error(error);
@@ -69,7 +81,9 @@ const httpClientes = {
     }
   },
 
-  getClientesPorMesCumpleanios: async (req, res) => { 
+     
+
+  getClientesPorMesCumpleanios: async (req, res) => {     
     try {
       const { mes } = req.params;
 
@@ -96,25 +110,31 @@ const httpClientes = {
         direccion,
         telefono,
         email,
-        plan,
+        idPlan,
         foto,
         objetivo,
         observaciones,
         fechaVencimiento,
         fechaNacimiento,
+       
       } = req.body;
+      const plan = await Plan.findById(idPlan);
+      if(!plan){
+        return res.status(400).json({ error: "El plan especificado no existe." });
+      }
       const Cliente = new clientes({
         nombre,
         documento,
         direccion,
         telefono,
         email,
-        plan,
+        idPlan,
         foto,
         objetivo,
         observaciones,
         fechaVencimiento,
         fechaNacimiento,
+        plan: plan.descripcion
       });
       await Cliente.save();
       res.json({ Cliente });
@@ -123,29 +143,6 @@ const httpClientes = {
       res.status(400).json({ error: "No se pudo crear el registro" });
     }
   },
-//   postSeguimiento: async (req, res) => {
-//     const { id } = req.params;
-   
-//     try {
-//         const { fecha, peso, IMC, tBrazo, tPierna, tCintura, estatura } = req.body;
-//         const seguimiento = [{
-    
-//             fecha,
-//             peso,
-//             IMC,
-//             tBrazo,
-//             tPierna,
-//             tCintura,
-//             estatura,
-//         }];
-//         await clientes.findByIdAndUpdate(id, { $set: { clientes: seguimiento } },{new:true});
-//         console.log(seguimiento, id)
-//         res.json({ seguimiento });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(400).json({ error: "No se pudo crear el registro de seguimiento" });
-//     }
-// },
 
 postSeguimiento: async (req, res) => {
   const { id } = req.params;
@@ -168,7 +165,7 @@ postSeguimiento: async (req, res) => {
       
       const clienteActualizado = await clientes.findByIdAndUpdate(
           id,
-          { $addToSet: { seguimiento: seguimiento } },
+          { $addToSet: { seguimiento: seguimiento } }, 
           { new: true }
       );
 console.log(clienteActualizado)
