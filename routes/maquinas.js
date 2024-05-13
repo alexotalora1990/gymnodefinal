@@ -12,25 +12,7 @@ router.get("/maquina/:id", httpMaquina.getMaquinaPorId);
 router.get("/activos", httpMaquina.getMaquinasActivas);
 router.get("/inactivos", httpMaquina.getMaquinasInactivas);
 
-// router.get("/:id/mantenimientos", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const maquina = await Maquina.findById(id).populate("idmantenimiento");
-//     if (!maquina) {
-//       return res.status(404).json({ message: "Máquina no encontrada" });
-//     }
-//     res.json({ mantenimientos: maquina.idmantenimiento });
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(500)
-//       .json({ message: "Error al obtener mantenimientos por máquina" });
-//   }
-// });
-// router.get(
-//   "/valor-entre-fechas",
-//   httpMaquina.obtenerValorMantenimientoEntreFechas
-// );
+
 router.post(
   "/",
   [

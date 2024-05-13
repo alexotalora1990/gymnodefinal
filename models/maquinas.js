@@ -7,10 +7,11 @@ const maquinaSchema = new mongoose.Schema({
     required: true,
   },
   
-  descripcion: { type: String, required: true, unique: true },
+  descripcion: { type: String, required: true },
   createAt: { type: Date, default: Date.now },
   fechaUltimoMant: { type: Date, required: true },
   estado: { type: Number, default: 1 },
 });
 
-export default mongoose.model("Maquina", maquinaSchema);
+export default mongoose.model("Maquina", maquinaSchema);  
+

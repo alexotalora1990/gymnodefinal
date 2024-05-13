@@ -30,7 +30,7 @@ router.put(  "/:id",[
   check("id", "Se necesita un mongoId válido").isMongoId(), validarCampos,
   check("id").custom(helpersMantenimientos.validarExistaId),
   validarCampos,
-],
+], 
   httpMantenimiento.putactualizarMantenimiento
 );
 

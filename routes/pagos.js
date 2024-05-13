@@ -11,6 +11,8 @@ router.get("/", httpPago.getPago);
 router.get("/pago/:id", httpPago.getPagoPorId);
 router.get("/activos", httpPago.getPagosActivos);
 router.get("/inactivos", httpPago.getPagosInactivos);
+router.get('/totalPagos', httpPago.getTotalPagos);
+
 
 router.post(
   "/",
@@ -19,7 +21,6 @@ router.post(
     check("idcliente", "Id se requiere un mongoId valido").isMongoId(),
     check("idplan", "Id plan no puede estar vacio").notEmpty(),
     check("idplan", "Id se requiere un mongoId valido").isMongoId(),
-    check("valor", "valor no puede estar vacio").notEmpty(),
     check("idcliente").custom(helpersClientes.validarExistaId),
     validarCampos,
   ],

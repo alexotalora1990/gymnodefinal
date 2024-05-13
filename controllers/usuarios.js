@@ -65,16 +65,7 @@ const httpUsuarios = {
     await Usuario.save();
     res.json({ Usuario });
 },
-  // postCrearUsuario: async (req, res) => {
-  //   const { nombre, cc, password, roll,idsede, email,telefono,sede } = req.body;
-  //   const Usuario = new usuarios({ nombre, cc, password, roll,idsede, email,telefono,sede });
-  //   const salt = bcryptjs.genSaltSync(5);
-  //   Usuario.password = bcryptjs.hashSync(password, salt);
-  //   await Usuario.save();
-  //   res.json({
-  //     Usuario,
-  //   });
-  // },
+ 
   putUsuarios: async (req, res) => {
     const { id } = req.params;
     const { _id, nombre, createAt, ...resto } = req.body;

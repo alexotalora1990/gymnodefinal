@@ -1,4 +1,5 @@
 import Pago from "../models/pagos.js";
+import Plan from "../models/planes.js"
 
 const httpPago = {
   getPago: async (req, res) => {
@@ -18,7 +19,7 @@ const httpPago = {
       if (!pago) {
         return res.status(404).json({ message: "Pago no encontrado" });
       }
-      res.json({ pago});
+      res.json({ pago });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error al obtener el pago" });
@@ -45,12 +46,54 @@ const httpPago = {
     }
   },
 
+
+  getTotalPagos: async (req, res) => {
+    try {
+      // Consultar la base de datos para obtener el total de pagos
+      const totalPagos = await Pago.aggregate([
+        {
+          $group: {
+            _id: null,
+            total: { $sum: '$valor' } // Sumar el valor de todos los pagos
+          }
+        }
+      ]);
+      // Si no hay ningún pago registrado, devolver un total de 0
+      const total = totalPagos.length > 0 ? totalPagos[0].total : 0;
+
+      // Devolver el total de pagos en formato JSON
+      res.json({ total });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Error al obtener el total de pagos' });
+    }
+  },
+
+
+
+
+
   postcrearPago: async (req, res) => {
     try {
-      const { _id, idcliente, idplan, valor, estado} = req.body;      
-      const nuevoPago = new Pago( { _id, idcliente, idplan, valor, estado});
+      const {
+        idcliente,
+        idplan,
+        valor,
+        estado
+      }
+        = req.body;
+      const plan = await Plan.findById(idplan);
+      if (!plan) {
+        return res.status(400).json({ error: "El plan especificado no existe." });
+      }
+      const nuevoPago = new Pago({
+        idcliente,
+        idplan,
+        valor: plan.valor,
+        estado
+      });
       await nuevoPago.save();
-      res.status(201).json({ nuevoPago});
+      res.status(201).json({ nuevoPago });
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "Pago no generado" });
@@ -88,11 +131,11 @@ const httpPago = {
   putinactivarPago: async (req, res) => {
     try {
       const { id } = req.params;
-      const pagoInactivar= await Pago.findByIdAndUpdate(id, { estado:0 }, { new: true });
+      const pagoInactivar = await Pago.findByIdAndUpdate(id, { estado: 0 }, { new: true });
       if (!pagoInactivar) {
         return res.status(404).json({ message: "Pago no encontrado" });
       }
-      res.json({Pago: pagoInactivar });
+      res.json({ Pago: pagoInactivar });
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "No se pudo inactivar el pago" });
