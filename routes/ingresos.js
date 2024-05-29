@@ -5,6 +5,8 @@ import { validarCampos } from "../middlewares/validar-campos.js";
 import helpersIngresos from "../helpers/ingresos.js";
 import helpersClientes from "../helpers/clientes.js"; 
 import helpersSedes from "../helpers/sedes.js";
+import { validarJWT } from "../middlewares/validar-jwt.js";
+
 
 const router = Router();
 

@@ -15,11 +15,11 @@ const httpSede = {
   getSedePorId: async (req, res) => {
     try {
       const { id } = req.params;
-      const sede= await Sede.findById(id);
+      const sede = await Sede.findById(id);
       if (!sede) {
         return res.status(404).json({ message: "Sede no encontrada" });
       }
-      res.json({ sede});
+      res.json({ sede });
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error al obtener la sede" });
@@ -50,7 +50,7 @@ const httpSede = {
     try {
       const nuevaSede = new Sede(req.body);
       await nuevaSede.save();
-      res.status(201).json({ nuevaSede});
+      res.status(201).json({ nuevaSede });
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "Sede no creada" });
@@ -71,33 +71,44 @@ const httpSede = {
     }
   },
 
-  putactivarSede: async (req, res) => {
+  putSedeActivar: async (req, res) => {
     try {
       const { id } = req.params;
-      const sedeActiva = await Sede.findByIdAndUpdate(id, { activo: true }, { new: true });
-      if (!sedeActiva) {
-        return res.status(404).json({ message: "Sede no encontrada" });
-      }
-      res.json({ sedeActiva });
+      
+      
+      const sedeActivado = await Sede.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+
+      res.json({ Sede: sedeActivado });
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ error: "No se pudo activar la sede" });
-    }
-  },
+      console.error(error);
+      res.status(500).json({ error: "Error al activar la sede" });
+    
+  }
+},
 
   putinactivarSede: async (req, res) => {
+    
     try {
       const { id } = req.params;
-      const sedeInactivar= await Sede.findByIdAndUpdate(id, { activo: false }, { new: true });
-      if (!sedeInactivar) {
-        return res.status(404).json({ message: "sede no encontrada" });
-      }
-      res.json({ sedeInactivar });
+      
+      
+      const sedeDesactivado = await Sede.findByIdAndUpdate(
+        id,
+        { estado: 0 },
+        { new: true }
+      );
+
+      res.json({ Sede: sedeDesactivado });
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ error: "No se pudo inactivar la sede" });
-    }
+      console.error(error);
+      res.status(500).json({ error: "Error al desactivar la sede" });
+    
   }
+},
 };
 
 export default httpSede;

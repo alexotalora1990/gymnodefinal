@@ -4,6 +4,8 @@ import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import helpersMaquinas from "../helpers/maquinas.js";
 import helpersSedes from "../helpers/sedes.js";
+import { validarJWT } from "../middlewares/validar-jwt.js";
+
 
 const router = Router();
 
@@ -50,7 +52,7 @@ router.put(
   httpMaquina.putactivarMaquina
 );
 router.put(
-  "/inactivar/:id", 
+  "/desactivar/:id", 
   [
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersMaquinas.validarExistaId),

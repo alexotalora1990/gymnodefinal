@@ -3,49 +3,53 @@ import httpSede from '../controllers/sedes.js';
 import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos.js";
 import helpersSedes from '../helpers/sedes.js';
+import { validarJWT } from '../middlewares/validar-jwt.js';
+
 
 const router = Router();
 
-router.get('/', httpSede.getSede); 
+router.get('/', httpSede.getSede);
 router.get('/Sede/:id', httpSede.getSedePorId);
 router.get('/activos', httpSede.getSedesActivas);
 router.get('/inactivos', httpSede.getSedesInactivas);
 router.post('/',
-[
-    check("nombre", "Nombre no puede estar vacio").notEmpty(),  
-    check("direccion", "Direccion no puede estar vacio").notEmpty(),
-    check("horario", "horario no puede estar vacio").notEmpty(),
-    check("telefono", "telefono no puede estar vacio").notEmpty(),
-    check("telefono", "Solo numeros").isNumeric(),
-    check("ciudad", "ciudad no puede estar vacio").notEmpty(),
-    
+  [
+    check("nombre", "Nombre no puede estar vacío").notEmpty(),
+    check("direccion", "Dirección no puede estar vacía").notEmpty(),
+    check("horario", "Horario no puede estar vacío").notEmpty(),
+    check("telefono", "Teléfono no puede estar vacío").notEmpty(),
+    check("telefono", "Solo números").isNumeric(),
+    check("ciudad", "Ciudad no puede estar vacía").notEmpty(),
     validarCampos,
   ],
-httpSede.postcrearSede);
+  httpSede.postcrearSede
+);
 
 router.put('/:id',
-[
-    check("id", "Se necesita un mongoid valido").isMongoId(),
+  [
+    check("id", "Se necesita un mongoid válido").isMongoId(),
     check("id").custom(helpersSedes.validarExistaId),
     validarCampos,
   ],
-httpSede.putactualizarSede);
+  httpSede.putactualizarSede
+);
 
-router.put('/:id/activar',
-[
-    check("id", "Se necesita un mongoid valido").isMongoId(),
+router.put('/activar/:id',
+  [
+    check("id", "Se necesita un mongoid válido").isMongoId(),
     check("id").custom(helpersSedes.validarExistaId),
     validarCampos,
   ],
- httpSede.putactivarSede);
-router.put('/:id/inactivar',
-[
-    check("id", "Se necesita un mongoid valido").isMongoId(),
+  httpSede.putSedeActivar
+);
+
+router.put('/desactivar/:id',
+  [
+    check("id", "Se necesita un mongoid válido").isMongoId(),
     check("id").custom(helpersSedes.validarExistaId),
     validarCampos,
   ],
-httpSede.putinactivarSede);
-
-
+  httpSede.putinactivarSede
+);
 
 export default router;

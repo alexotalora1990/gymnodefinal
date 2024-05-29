@@ -1,3 +1,4 @@
+import productos from "../models/productos.js";
 import Producto from "../models/productos.js";
 
 const httpProducto = {
@@ -25,13 +26,35 @@ const httpProducto = {
     }
   },
 
- 
+  getProductosActivos: async (req, res) => {
+    try { 
+      
+      const productosActivos = await productos.find({estado: 1}); 
+
+      res.json({ productosActivos }); 
+    } catch (error) {  
+      console.error(error);
+      res.status(500).json({ error: "Error al buscar los productos activos" });
+    }
+  },
+
+  getProductosInactivos: async (req, res) => {
+    try { 
+      
+      const productosInactivos = await productos.find({estado: 0}); 
+
+      res.json({ productosInactivos }); 
+    } catch (error) {  
+      console.error(error);
+      res.status(500).json({ error: "Error al buscar los productos inactivos" });
+    }
+  },
 
   postcrearProducto: async (req, res) => {
     try {
-      const { _id,descripcion, valor, cantidad} = req.body;
+      const { _id, nombre, valor, cantidad} = req.body;
       
-      const nuevoProducto = new Producto({ _id,descripcion, valor, cantidad});
+      const nuevoProducto = new Producto({ _id, nombre, valor, cantidad});
       await nuevoProducto.save();
       res.status(201).json({ nuevoProducto});
     } catch (error) {
@@ -54,33 +77,33 @@ const httpProducto = {
     }
   },
 
-  putactivarProducto: async (req, res) => {
+  putActivarProducto: async (req, res) => {
     try {
       const { id } = req.params;
-      const productoActivo = await Producto.findByIdAndUpdate(id, { activo: true }, { new: true });
-      if (!productoActivo) {
-        return res.status(404).json({ message: "Producto no encontrado" });
-      }
-      res.json({ productoActivo });
+ 
+      const productoActivo = await productos.findByIdAndUpdate(
+        id, 
+        { estado: 1 }, 
+        { new: true });
+     
+        
+         res.json({  productoActivo });
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "No se pudo activar el producto" });
     }
   },
-
-  putinactivarProducto: async (req, res) => {
+  putDesactivarProducto: async (req, res) => {
     try {
       const { id } = req.params;
-      const productoInactivar= await Producto.findByIdAndUpdate(id, { activo: false }, { new: true });
-      if (!planInactivar) {
-        return res.status(404).json({ message: "Producto no encontrado" });
-      }
-      res.json({ productoInactivar });
+      const productoInactivo = await productos.findByIdAndUpdate(id, { estado:0 }, { new: true });
+     
+      res.json({ productoInactivo });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: "No se pudo inactivar el producto" });
+      res.status(400).json({ error: "No se pudo desactivar el producto" });
     }
-  }
+  }  
 };
 
 export default httpProducto;

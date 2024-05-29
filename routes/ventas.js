@@ -5,7 +5,9 @@ import helpersClientes from '../helpers/clientes.js';
 import helpersProductos from '../helpers/productos.js';
 import helpersSedes from '../helpers/sedes.js';
 import helpersVentas from '../helpers/ventas.js';
-import { validarCampos } from "../middlewares/validar-campos.js";
+import { validarCampos } from '../middlewares/validar-campos.js';
+import { validarJWT } from '../middlewares/validar-jwt.js';
+
 
 import Venta from '../models/ventas.js';
 

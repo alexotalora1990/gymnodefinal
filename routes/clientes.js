@@ -6,6 +6,7 @@ import helpersClientes from "../helpers/clientes.js";
 import helpersPlanes from "../helpers/planes.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
+
 const router = Router();
 
 router.get("/",[
@@ -70,7 +71,7 @@ router.post(
     check("tCintura", "Cintura no puede estar vacío").notEmpty(),
     check("estatura", "Estatura no puede estar vacío").notEmpty(),
   ],
-  httpClientes.postSeguimiento
+  httpClientes.postSeguimiento 
 );
 
 router.put(
@@ -95,7 +96,7 @@ router.put(
 
 
 router.put(
-  "/Desactivar/:id",
+  "/desactivar/:id",
   [
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersClientes.validarExistaId),

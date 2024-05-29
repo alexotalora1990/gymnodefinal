@@ -128,7 +128,7 @@ const httpClientes = {
         direccion,
         telefono,
         email,
-        idPlan,
+        idPlan, 
         foto,
         objetivo,
         observaciones,

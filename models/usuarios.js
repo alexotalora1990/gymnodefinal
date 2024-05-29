@@ -1,13 +1,8 @@
 import mongoose from "mongoose";
 
 const usuarioSchema=new mongoose.Schema({
-    sede:{type:String,default:""}, 
-    idsede: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sede",
-        required: true,
-      },
-    
+    sede:{type:String,default:""},  
+    idsede: {type:mongoose.Schema.Types.ObjectId,ref:"Sede",required:true},    
     nombre:{type:String,default:"",required:true },
     email:{type:String,default:0,required:true,unique:true},
     password:{type:String,default:0,required:true},
@@ -17,4 +12,4 @@ const usuarioSchema=new mongoose.Schema({
     createAt:{type:Date,default:Date.now},
 })
 
-export default mongoose.model("Usuario",usuarioSchema)
+export default mongoose.model("Usuario",usuarioSchema) 

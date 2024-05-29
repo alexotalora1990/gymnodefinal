@@ -50,25 +50,25 @@ const httpUsuarios = {
     }
   },
   postCrearUsuario: async (req, res) => {
-    const { nombre, cc, password, roll, idsede, email, telefono } = req.body;
+    const { nombre,  password, roll, idsede, email, telefono } = req.body;
     
-    // Buscar la sede utilizando el ID
+    //  Buscar la sede utilizando el ID
     const sede = await Sede.findById(idsede);
 
     if (!sede) {
         return res.status(400).json({ error: "La sede especificada no existe." });
     }
 
-    const Usuario = new usuarios({ nombre, cc, password, roll, idsede, email, telefono, sede: sede.nombre });
+    const Usuario = new usuarios({ nombre,  password, roll, idsede, email, telefono, sede:sede.nombre });
     const salt = bcryptjs.genSaltSync(5);
     Usuario.password = bcryptjs.hashSync(password, salt);
     await Usuario.save();
     res.json({ Usuario });
 },
  
-  putUsuarios: async (req, res) => {
+  putUsuarios: async (req, res) =>{
     const { id } = req.params;
-    const { _id, nombre, createAt, ...resto } = req.body;
+    const { _id, nombre, createAt, ...resto } = req.body; 
     console.log(resto);
     const Usuario = await usuarios.findByIdAndUpdate(id, nombre, resto, {
       new: true,
@@ -78,7 +78,7 @@ const httpUsuarios = {
   putUsuariosActivar: async (req, res) => {
     try {
       const { id } = req.params;
-
+ 
       const usuarioActivo = await usuarios.findByIdAndUpdate(
         id, 
         { estado: 1 }, 
@@ -88,7 +88,7 @@ const httpUsuarios = {
          res.json({  usuarioActivo });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: "No se pudo activar la maquina" });
+      res.status(400).json({ error: "No se pudo activar el usuario" });
     }
   },
   putUsuariosDesactivar: async (req, res) => {
@@ -99,7 +99,7 @@ const httpUsuarios = {
       res.json({ usuarioInactivo });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: "No se pudo inactivar la maquina" });
+      res.status(400).json({ error: "No se pudo desactivar el usuario" });
     }
   },
 
