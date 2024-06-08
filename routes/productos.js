@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/",
 [
-validarJWT
+// validarJWT
 ],
  httpProducto.getProducto);
 router.get("/producto/:id",
@@ -20,12 +20,12 @@ router.get("/producto/:id",
 
  router.get("/activos",
  [
-  validarJWT
+  // validarJWT
   ],
  httpProducto.getProductosActivos);
 router.get("/inactivos",
 [
-  validarJWT
+  // validarJWT
   ],
 httpProducto.getProductosInactivos);
 
@@ -33,7 +33,7 @@ httpProducto.getProductosInactivos);
 router.post(
   "/",
   [
-    validarJWT,
+    // validarJWT,
     check("nombre", "Descripcion no puede estar vacio").notEmpty(),
     check("cantidad", "Id plan no puede estar vacio").notEmpty(),
     check("valor", "valor no puede estar vacio").notEmpty(),
@@ -46,7 +46,7 @@ router.post(
 router.put(
   "/:id",
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,
@@ -57,7 +57,7 @@ router.put(
 router.put(
   '/activar/:id',
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,
@@ -69,7 +69,7 @@ router.put(
 router.put(
   '/desactivar/:id',
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,

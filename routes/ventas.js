@@ -45,7 +45,7 @@ router.put('/:id',
     check("id").custom(helpersVentas.validarExistaId),
     validarCampos,
   ],
-httpVenta.putVentas);
+httpVenta.putactualizarVentas);
  
 router.put('/listar',
 [

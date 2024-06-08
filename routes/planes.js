@@ -42,7 +42,7 @@ router.put('/activar/:id',
 
 httpPlan.putactivarPlan);
 
-router.put('/desactivar/:id',
+router.put('/inactivar/:id',
 [
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersPlanes.validarExistaId),

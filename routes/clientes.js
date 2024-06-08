@@ -30,7 +30,7 @@ router.post(
     check("direccion", "El nombre no puede estar vacio").notEmpty(),
     check("email", "El email no puede estar vacio").notEmpty(),
     check("telefono", "El telefono no puede estar vacio").notEmpty(),
-    check(
+    check( 
       "fechaNacimiento",
       "La fecha de nacimiento no puede estar vacio"
 

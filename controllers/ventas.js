@@ -85,15 +85,18 @@ const httpVenta = {
       res.status(400).json({ error: "No se pudo crear el registro" });
     }
   },
-  putVentas: async (req, res) => {
-    const { id } = req.params;
-    const { _id, estado, createAt, ...resto } = req.body;
-    console.log(resto);
-
-    const Venta = await ventas.findByIdAndUpdate(id, resto, {
-      new: true,
-    });
-    res.json({ Venta });
+  putactualizarVentas: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const ventaActualiza = await ventas.findByIdAndUpdate(id, req.body, { new: true });
+      if (!ventaActualiza) {
+        return res.status(404).json({ message: "Sede no encontrada" });
+      }
+      res.json({ ventaActualiza });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ error: "No se pudo actualizar la venta" });
+    }
   },
  
   putListar: async (req, res) => {
@@ -109,3 +112,4 @@ const httpVenta = {
 };
 
 export default httpVenta;
+ 

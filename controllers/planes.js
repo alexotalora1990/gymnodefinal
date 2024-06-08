@@ -74,7 +74,7 @@ const httpPlan = {
   putactivarPlan: async (req, res) => {
     try {
       const { id } = req.params;
-      const planActivo = await Plan.findByIdAndUpdate(id, { activo: true }, { new: true });
+      const planActivo = await Plan.findByIdAndUpdate(id, { estado: 1}, { new: true });
       if (!planActivo) {
         return res.status(404).json({ message: "Plan no encontrado" });
       }
@@ -88,7 +88,7 @@ const httpPlan = {
   putinactivarPlan: async (req, res) => {
     try {
       const { id } = req.params;
-      const planInactivar= await Plan.findByIdAndUpdate(id, { activo: false }, { new: true });
+      const planInactivar= await Plan.findByIdAndUpdate(id, { estado: 0 }, { new: true });
       if (!planInactivar) {
         return res.status(404).json({ message: "Plan no encontrado" });
       }
@@ -100,4 +100,4 @@ const httpPlan = {
   }
 };
 
-export default httpPlan;
+export default httpPlan; 

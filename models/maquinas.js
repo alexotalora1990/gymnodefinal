@@ -13,5 +13,6 @@ const maquinaSchema = new mongoose.Schema({
   estado: { type: Number, default: 1 },
 });
 
-export default mongoose.model("Maquina", maquinaSchema);  
+export default mongoose.model("Maquina", maquinaSchema);        
+
 
