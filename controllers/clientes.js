@@ -168,12 +168,23 @@ const httpClientes = {
     }
   },
 
+
 postSeguimiento: async (req, res) => {
+
+  const calcularIMC = (peso, estatura) => {
+    const alturaMetros = estatura / 100; // Convertir estatura de cm a metros
+    return peso / (alturaMetros * alturaMetros); // Calcular IMC según la fórmula
+  
+};
+  
   const { id } = req.params;
+
+  
   console.log("ID del cliente:", req.params.id);
   try {
-      const { fecha, peso, IMC, tBrazo, tPierna, tCintura, estatura } = req.body;
-      
+      const { fecha, peso,  tBrazo, tPierna, tCintura, estatura } = req.body;
+
+      const IMC = calcularIMC(peso, estatura)
      
       const seguimiento = {
           fecha,

@@ -65,7 +65,7 @@ router.post(
   [
     check("fecha", "Fecha no puede estar vacía").notEmpty(),
     check("peso", "Peso no puede estar vacío").notEmpty(),
-    check("IMC", "IMC no puede estar vacío").notEmpty(),
+    
     check("tBrazo", "Brazo no puede estar vacío").notEmpty(),
     check("tPierna", "Pierna no puede estar vacío").notEmpty(),
     check("tCintura", "Cintura no puede estar vacío").notEmpty(),
