@@ -92,9 +92,8 @@ router.put('/:id/listar',
 ],
 httpUsuarios.putListar);
 
-router.post('/login', 
-[
-  // validarJWT,
+router.post('/login', [
+ 
   check("email", "Se necesita un correo  valido").notEmpty(),
   check("password", "Se necesita una contraseña valido").notEmpty(),
   validarCampos,
