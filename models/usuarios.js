@@ -10,6 +10,6 @@ const usuarioSchema=new mongoose.Schema({
     roll:{type:String,default:"",required:true },
     estado:{type:Number,default:1},
     createAt:{type:Date,default:Date.now},
-}) 
+})  
 
 export default mongoose.model("Usuario",usuarioSchema)   

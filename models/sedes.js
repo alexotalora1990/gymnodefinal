@@ -8,7 +8,7 @@ const sedeSchema=new mongoose.Schema({
     telefono:{type:Number,default:0,required:true},
    ciudad:{type:String,default:"",required:true },
     estado:{type:Number,default:1},
-    createAt:{type:Date,default:Date.now},
+    createAt:{type:Date,default:Date.now},  
 })
 
 export default mongoose.model("Sede",sedeSchema) 

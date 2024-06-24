@@ -11,7 +11,7 @@ const router = Router();
 
 router.get("/",[
   // validarJWT,
-  
+   
 ], httpClientes.getClientes1);
 router.get("/",[
   // validarJWT  
