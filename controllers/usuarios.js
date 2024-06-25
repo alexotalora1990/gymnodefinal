@@ -136,8 +136,9 @@ const httpUsuarios = {
         return res.status(404).json({ msg: 'Usuario no encontrado' });
       }
       const token = jwt.sign({ id: user._id }, process.env.CLAVE_SECRETA_CORREO, { expiresIn: '1h' });
-      const link = `${process.env.FRONTEND_URL}/resetPassword?token=${token}`;
+      const link = `${process.env.FRONTEND_URL}resetPassword?token=${token}`;
       const payload = { link };
+      console.log("antesde enviarlo "+payload.link);
 
       await sendEmail(email, 'Recuperación de contraseña', payload, './templates/emailReset.html');
       res.json({ msg: 'Correo de recuperación enviado' });

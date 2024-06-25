@@ -5,6 +5,7 @@ import Usuario from "../models/usuarios.js";
 
 const httpReset = {
   envioEmail: async (req, res) => {
+    console.log("hola ");
     try {
       const { email } = req.body;
       const usuario = await Usuario.findOne({ email });
@@ -21,15 +22,17 @@ const httpReset = {
       // const link = `${process.env.FRONTEND_URL}/reset-password?reset=${token}`;
 
 
-      const link =`http://localhost:5173/#/reset-password?reset=${token}`
-
-      // const link = `https://gymapp-lgjb.onrender.com/#/reset-password?reset=${token}`;
+      const link =`http://localhost:5173/#/resetpassword?reset=${token}`
+    
+      // const link = `https://gymapp-lgjb.onrender.com/#/resetpassword?reset=${token}`;
 
 
       usuario.recuperacion = token;
       await usuario.save();
 
       const payload = { link };
+
+      
 
       try {
         await sendEmail(usuario.email, "Solicitud de recuperación de contraseña", payload, 'templates/emailReset.html');

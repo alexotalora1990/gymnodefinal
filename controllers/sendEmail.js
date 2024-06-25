@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const sendEmail = async (email, subject, payload, templatePath) => {
+  console.log("link  "+payload.link);
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
