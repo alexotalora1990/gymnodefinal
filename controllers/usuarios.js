@@ -9,20 +9,35 @@ import { generarJWT } from "../middlewares/validar-jwt.js";
 
 const httpUsuarios = {
   getUsuarios: async (req, res) => {
-    const Usuario = await usuarios.find();
+    const Usuario = await usuarios.find().populate('idsede');
     res.json({ Usuario });
   },
+  // getUsuarios1: async (req, res) => {
+  //   const { busqueda } = req.query;
+  //   const Usuario = await usuarios.find({
+  //     $or: [
+  //       { nombre: new RegExp(busqueda, "i") },
+  //       { cc: new RegExp(busqueda, "i") }, 
+  //       { password: new RegExp(busqueda, "i") },
+  //     ], 
+  //   });
+  //   console.log(Usuario);
+  //   res.json({ Usuario });
+  // },
   getUsuarios1: async (req, res) => {
     const { busqueda } = req.query;
-    const Usuario = await usuarios.find({
-      $or: [
-        { nombre: new RegExp(busqueda, "i") },
-        { cc: new RegExp(busqueda, "i") },
-        { password: new RegExp(busqueda, "i") },
-      ], 
-    });
+
+    let Usuario;
+    if (busqueda) {
+      Usuario = await usuarios.find({
+        nombre: new RegExp(busqueda, "i")
+      }).sort({ nombre: 1 }); // Ordena los resultados por nombre de manera ascendente
+    } else {
+      Usuario = await usuarios.find().sort({ nombre: 1 }); // Lista todos los usuarios y los ordena por nombre
+    }
+    
     console.log(Usuario);
-    res.json({ Usuario });
+    res.json({ Usuario }); 
   },
   getUsuariosId: async (req, res) => {
     const { id } = req.params;

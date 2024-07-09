@@ -2,15 +2,15 @@ import ingresos from "../models/ingresos.js";
 
 const httpIngresos = {
   getIngresos: async (req, res) => {
-    const Ingreso = await ingresos.find();
+    const Ingreso = await ingresos.find().populate('idsede').populate('idcliente')
     res.json({ Ingreso });
   },
-
+ 
   getIngresosID: async (req, res) => {
     const { id } = req.params;
     const Cliente = await Cliente.findById(id);
-    console.log(Cliente);
-    res.json({ Cliente });
+    console.log(Cliente); 
+    res.json({ Cliente }); 
   },
  
   postIngresos: async (req, res) => {
@@ -18,7 +18,7 @@ const httpIngresos = {
       const { idcliente, idsede } = req.body;
       const Ingreso = new ingresos({ idcliente, idsede });
       await Ingreso.save();
-      res.json({ Ingreso });
+      res.json({ Ingreso }); 
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "No se pudo crear el registro" });

@@ -3,7 +3,7 @@ import Maquina from "../models/maquinas.js";
 const httpMaquina = {
   getMaquina: async (req, res) => {
     try {
-      const maquina = await Maquina.find();
+      const maquina = await Maquina.find().populate('idSede');
       res.json({ maquina });
     } catch (error) {
       console.log(error);

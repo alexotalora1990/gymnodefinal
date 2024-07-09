@@ -13,8 +13,8 @@ import Venta from '../models/ventas.js';
 
 const router = Router();
 
-router.get('/', httpVenta.getVentas1); 
 router.get('/', httpVenta.getVentas); 
+/* router.get('/', httpVenta.getVentas); */ 
 router.get('/:id', httpVenta.getVentasId);
 router.get('/:id', httpVenta.getlistarVentasEntreFechas);
 

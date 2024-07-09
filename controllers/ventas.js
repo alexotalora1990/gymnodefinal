@@ -1,27 +1,27 @@
 import ventas from "../models/ventas.js";
 import productos from "../models/productos.js";
 const httpVenta = {
-  getVentas1: async (req, res) => {
-    const Venta = await ventas.find();
-    res.json({ Venta });
-  },
-
   getVentas: async (req, res) => {
-    const { busqueda } = req.query;
-    const Venta = await ventas
-      .find({
-        $or: [
-          { createAt: new RegExp(busqueda, "i") },
-          { numfact: new RegExp(busqueda, "i") },
-          { fecha: new RegExp(busqueda, "i") },
-          
-        ],
-      })
-      .populate({ createAt, numfact, fecha });
-    console.log(Venta);
-
+    const Venta = await ventas.find().populate('idcliente').populate('idsede').populate('idproducto');;
     res.json({ Venta });
   },
+
+  // getVentas: async (req, res) => {
+  //   const { busqueda } = req.query;
+  //   const Venta = await ventas
+  //     .find({
+  //       $or: [
+  //         { createAt: new RegExp(busqueda, "i") },
+  //         { numfact: new RegExp(busqueda, "i") },
+  //         { fecha: new RegExp(busqueda, "i") },
+          
+  //       ],
+  //     })
+  //     .populate('idcliente').populate('idsede').populate('idproducto');
+  //   console.log(Venta);
+
+  //   res.json({ Venta });
+  // },
 
   getVentasId: async (req, res) => {
     const { id } = req.params;

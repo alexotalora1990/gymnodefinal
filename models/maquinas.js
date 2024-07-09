@@ -11,7 +11,7 @@ const maquinaSchema = new mongoose.Schema({
   createAt: { type: Date, default: Date.now },
   fechaUltimoMant: { type: Date, required: true },
   estado: { type: Number, default: 1 },
-});
+}); 
 
 export default mongoose.model("Maquina", maquinaSchema);        
 
