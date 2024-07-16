@@ -4,7 +4,7 @@ import Plan from "../models/planes.js"
 const httpPago = {
   getPago: async (req, res) => {
     try {
-      const pago = await Pago.find();
+      const pago = await Pago.find().populate('idcliente').populate('idplan');
       res.json({ pago });
     } catch (error) {
       console.log(error);
@@ -100,19 +100,49 @@ const httpPago = {
     }
   },
 
+
   putactualizarPago: async (req, res) => {
     try {
       const { id } = req.params;
-      const pagoActualizo = await Pago.findByIdAndUpdate(id, req.body, { new: true });
-      if (!pagoActualizo) {
-        return res.status(404).json({ message: "Pago no encontrada" });
+      const { idplan, ...resto } = req.body;
+
+      // Buscar el pago existente
+      let pagoActual = await Pago.findById(id);
+      if (!pagoActual) {
+        return res.status(404).json({ message: "Pago no encontrado" });
       }
-      res.json({ pagoActualizo });
+
+      // Si se actualiza el plan, buscar el nuevo plan y actualizar el valor
+      if (idplan) {
+        const nuevoPlan = await Plan.findById(idplan);
+        if (!nuevoPlan) {
+          return res.status(400).json({ error: "El nuevo plan especificado no existe." });
+        }
+        resto.valor = nuevoPlan.valor;  // Actualizar el valor del pago con el valor del nuevo plan
+      }
+
+      // Actualizar el pago con los nuevos datos
+      pagoActual = await Pago.findByIdAndUpdate(id, { idplan, ...resto }, { new: true });
+      res.json({ pagoActual });
     } catch (error) {
       console.log(error);
       res.status(400).json({ error: "No se pudo actualizar el pago" });
     }
   },
+
+  // putactualizarPago: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const pagoActualizo = await Pago.findByIdAndUpdate(id, req.body, { new: true });
+  //     if (!pagoActualizo) {
+  //       return res.status(404).json({ message: "Pago no encontrada" });
+  //     }
+  //     res.json({ pagoActualizo });
+  //   } catch (error) {
+  //     console.log(error);
+  //     res.status(400).json({ error: "No se pudo actualizar el pago" });
+  //   }
+  // },
 
   putactivarPago: async (req, res) => {
     try {
