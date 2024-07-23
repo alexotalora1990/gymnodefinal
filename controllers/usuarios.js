@@ -12,18 +12,7 @@ const httpUsuarios = {
     const Usuario = await usuarios.find().populate('idsede');
     res.json({ Usuario });
   },
-  // getUsuarios1: async (req, res) => {
-  //   const { busqueda } = req.query;
-  //   const Usuario = await usuarios.find({
-  //     $or: [
-  //       { nombre: new RegExp(busqueda, "i") },
-  //       { cc: new RegExp(busqueda, "i") }, 
-  //       { password: new RegExp(busqueda, "i") },
-  //     ], 
-  //   });
-  //   console.log(Usuario);
-  //   res.json({ Usuario });
-  // },
+
   getUsuarios1: async (req, res) => {
     const { busqueda } = req.query;
 

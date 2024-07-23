@@ -63,33 +63,21 @@ const httpVenta = {
   postVentas: async (req, res) => {
     try {
       const { idproducto, idcliente, idsede, cantidad } = req.body;
-
     
       const producto = await productos.findById(idproducto);
       if (!producto) {  
         return res.status(404).json({ error: "El producto no existe" });
-      }
-
-      
+      }      
       const valorUnidad = producto.valor;
-      const total = valorUnidad * cantidad;
-
-      
+      const total = valorUnidad * cantidad;      
       if (producto.cantidad < cantidad) {
         return res.status(400).json({ error: "No hay suficiente cantidad en inventario" });
-      }
-
-      
+      }      
       const Venta = new ventas({
-        idproducto,idcliente,idsede,valorUnidad,cantidad,total, 
-        
-        });
-        
-      
+        idproducto,idcliente,idsede,valorUnidad,cantidad,total,                            
+        });     
 
-      
-      await Venta.save();
-
+             await Venta.save();
      
       producto.cantidad -= cantidad;
       await producto.save();
