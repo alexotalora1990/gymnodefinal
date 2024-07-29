@@ -1,11 +1,12 @@
 import ventas from "../models/ventas.js";
 import productos from "../models/productos.js";
+import Pago from "../models/pagos.js";
 const httpVenta = {
   getVentas: async (req, res) => {
     const Venta = await ventas.find().populate('idcliente').populate('idsede').populate('idproducto');;
     res.json({ Venta });
   },
-
+ 
  
 
   getVentasId: async (req, res) => {
@@ -15,55 +16,72 @@ const httpVenta = {
     res.json({ Venta });
   },
 
-  getlistarVentasEntreFechas: async (req, res) => {
+  getVentasEntreFechas: async (req, res) => {
     try {
       const { fechaInicio, fechaFin } = req.query;
+
+      if (!fechaInicio || !fechaFin) {
+        return res.status(400).json({ error: "Se requieren fechas de inicio y fin" });
+      } 
+
+      const startDate = new Date(fechaInicio);
+      const endDate = new Date(fechaFin);
+
+      if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return res.status(400).json({ error: "Fechas inválidas" });
+      }
+
+      // Ajustar la hora del endDate para incluir todo el día
+      endDate.setUTCHours(23, 59, 59, 999);
+
       const ventasEntreFechas = await ventas.find({
-        createAt: { $gte: new Date(fechaInicio), $lte: new Date(fechaFin) }
-      });
-      res.json({ ventasEntreFechas });
+        createAt: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      })
+      .populate('idcliente')
+      .populate('idsede')
+      .populate('idproducto')
+      .exec(); // Añadir exec() para ejecutar la consulta
+
+      res.json({ ventas: ventasEntreFechas });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error al buscar las ventas entre las fechas especificadas" });
+      console.error("Error al obtener las ventas entre fechas:", error);
+      res.status(500).json({ error: "Error al obtener las ventas entre fechas" });
     }
   },
-
-  getVentasPorFecha: async (req, res) => {
+  getVentasPorDia: async (req, res) => {
     try {
       const { fecha } = req.query;
-      console.log(fecha);
-
       if (!fecha) {
-        return res.status(400).json({ error: "Se requiere una fecha en el parámetro de consulta" });
-        
+        return res.status(400).json({ error: "Se requiere una fecha en el formato YYYY-MM-DD" });
       }
-    
-
-    //   const inicio = new Date(fecha);
-    //   const fin = new Date(fecha);
-    //   fin.setDate(fin.getDate() + 1);
-
-    //   console.log("Rango de fechas:", inicio, fin);
-
-    //   const ventasPorFecha = await ventas.find({
-    //     createAt: { $gte: inicio, $lt: fin }
-    //   });
-
-    //   console.log("Ventas encontradas:", ventasPorFecha);
-
-    //   const totalVentas = ventasPorFecha.reduce((total, venta) => total + venta.total, 0);
-
-    //   res.json({ ventasPorFecha, totalVentas });
-    } catch (error) { 
-      console.error("Error al buscar las ventas por fecha:", error);
-      res.status(500).json({ error: "Error al buscar las ventas por fecha" });
+  
+      const startDate = new Date(fecha);
+      const endDate = new Date(fecha);
+      endDate.setUTCHours(23, 59, 59, 999); // Ajustar la hora para incluir todo el día
+  
+      const ventasDia = await ventas.find({
+        createAt: { $gte: startDate, $lt: endDate }
+      })
+      .populate('idcliente')
+      .populate('idsede')
+      .populate('idproducto');
+  
+      const totalVentas = ventasDia.reduce((acc, venta) => acc + venta.total, 0);
+  
+      res.json({ ventas: ventasDia, totalVentas });
+    } catch (error) {
+      console.error('Error en la consulta de ventas:', error); 
+      res.status(500).json({ error: "No se pudieron obtener las ventas" });
     }
   },
- 
+     
   postVentas: async (req, res) => {
     try {
       const { idproducto, idcliente, idsede, cantidad } = req.body;
-    
+     
       const producto = await productos.findById(idproducto);
       if (!producto) {  
         return res.status(404).json({ error: "El producto no existe" });
