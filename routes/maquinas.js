@@ -12,7 +12,7 @@ const router = Router();
 router.get("/", httpMaquina.getMaquina);
 router.get("/maquina/:id", httpMaquina.getMaquinaPorId);
 router.get("/activos", httpMaquina.getMaquinasActivas);
-router.get("/inactivos", httpMaquina.getMaquinasInactivas);
+router.get("/inactivos", httpMaquina.getMaquinasInactivas);  
 
 
 router.post(

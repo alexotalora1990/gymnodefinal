@@ -78,6 +78,7 @@ const httpPago = {
       const {
         idcliente,
         idplan,
+        fechaVencimiento,
         valor,
         estado
       }
@@ -89,6 +90,7 @@ const httpPago = {
       const nuevoPago = new Pago({
         idcliente,
         idplan,
+        fechaVencimiento,
         valor: plan.valor,
         estado
       });
