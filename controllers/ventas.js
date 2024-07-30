@@ -19,12 +19,12 @@ const httpVenta = {
   getVentasEntreFechas: async (req, res) => {
     try {
       const { fechaInicio, fechaFin } = req.query;
-
+      console.log(fechaInicio);
       if (!fechaInicio || !fechaFin) {
         return res.status(400).json({ error: "Se requieren fechas de inicio y fin" });
       } 
 
-      const startDate = new Date(fechaInicio);
+      const startDate = new Date(fechaInicio); 
       const endDate = new Date(fechaFin);
 
       if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
@@ -61,7 +61,7 @@ const httpVenta = {
       const startDate = new Date(fecha);
       const endDate = new Date(fecha);
       endDate.setUTCHours(23, 59, 59, 999); // Ajustar la hora para incluir todo el día
-  
+ 
       const ventasDia = await ventas.find({
         createAt: { $gte: startDate, $lt: endDate }
       })

@@ -17,7 +17,7 @@ router.get('/:id', httpVenta.getVentasId); // Ruta para obtener una venta por su
 
 router.get('/porDia', httpVenta.getVentasPorDia); 
  
-router.get('/ventasFecha',httpVenta.getVentasEntreFechas); 
+router.get('/ventasFecha',httpVenta.getVentasEntreFechas);  
 
 router.post('/', [ 
   check('idcliente', 'Id cliente no puede estar vacío').notEmpty(),
@@ -27,7 +27,7 @@ router.post('/', [
   check('idsede', 'Id sede no puede estar vacío').notEmpty(),
   check('idsede', 'Se requiere un mongoId válido para idsede').isMongoId(),
   check('cantidad', 'Cantidad no puede estar vacía').notEmpty(),
-  check('idcliente').custom(helpersClientes.validarExistaId),
+  check('idcliente').custom(helpersClientes.validarExistaId), 
   check('idsede').custom(helpersSedes.validarExistaId),
   check('idproducto').custom(helpersProductos.validarExistaId), 
   validarCampos,
@@ -44,6 +44,6 @@ router.put('/listar/:id', [
   check('id').custom(helpersVentas.validarExistaId), 
   validarCampos, 
 ], httpVenta.putListar); // Ruta para listar una venta por su ID
-
+ 
 export default router;
   
