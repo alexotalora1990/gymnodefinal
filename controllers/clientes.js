@@ -84,28 +84,7 @@ const httpClientes = {
   
 
 
-  // getClientesPorPlan: async (req, res) => {
-  //   try {
-  //     const { plan: nombrePlan } = req.params;
-  
-     
-  //     const planExistente = await Plan.findOne({ descripcion: nombrePlan });
-  //     console.log(nombrePlan);
-  //     if (!planExistente) {
-  //       return res.status(404).json({ error: "El plan especificado no existe.", clientesPorPlan: [] });
-  //     }
-  //  res.status(500).json({ error: "Error al buscar los clientes por plan" });
-    
 
-  //     const clientesPorPlan = await clientes.find({ idPlan: planExistente._id });
-   
-  //     res.json({ clientesPorPlan }); 
-
-  //   } catch (error) { 
-  //     console.error(error);
-  //     res.status(500).json({ error: "Error al buscar los clientes por plan" });
-  //   }
-  // },
 
   getClientesPorMesCumpleanios: async (req, res) => {     
     try {
