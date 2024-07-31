@@ -82,10 +82,6 @@ const httpClientes = {
     }
   },
   
-
-
-
-
   getClientesPorMesCumpleanios: async (req, res) => {     
     try {
       const { mes } = req.params;
@@ -209,6 +205,24 @@ console.log(clienteActualizado)
       res.status(500).json({ error: "Error al actualizar el cliente" });
     }
   },
+
+  putSeguimiento: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { peso, ...resto } = req.body;
+      console.log(id);
+
+      const seguimientoActualizado = await clientes.findByIdAndUpdate(id, { peso, ...resto }, { new: true });
+console.log(seguimientoActualizado);
+      res.json({ Seguimiento: seguimientoActualizado });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al actualizar el seguimiento" });
+    }
+  },
+
+
+ 
   putClientesActivar: async (req, res) => {
     
       try {
