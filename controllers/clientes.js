@@ -3,6 +3,12 @@ import Plan from "../models/planes.js"
 
 import nodemailer from "nodemailer";
 
+const calcularIMC = (peso, estatura) => {
+  const alturaMetros = estatura / 100; // Convertir estatura de cm a metros
+  return peso / (alturaMetros * alturaMetros); // Calcular IMC según la fórmula
+
+};
+
 const httpClientes = {
   getClientes1: async (req, res) => {
     const Cliente = await clientes.find();
@@ -19,7 +25,7 @@ const httpClientes = {
         { direccion: new RegExp(busqueda, "i") },
         { telefono: new RegExp(busqueda, "i") },
       ],
-    });
+    }).populate('idPlan');
     console.log(Cliente);
 
     res.json({ Cliente });
@@ -33,63 +39,66 @@ const httpClientes = {
   },
 
   getClientesActivos: async (req, res) => {
-    try { 
-      
-      const clientesActivos = await clientes.find({estado: 1}); 
+    try {
 
-      res.json({ clientesActivos }); 
-    } catch (error) {  
-      console.error(error);
-      res.status(500).json({ error: "Error al buscar los clientes inactivos" });
-    }
-  }, 
+      const clientesActivos = await clientes.find({ estado: 1 });
 
-  getClientesInactivos: async (req, res) => {
-    try { 
-      
-      const clientesInactivos = await clientes.find({estado: 0}); 
-
-      res.json({ clientesInactivos }); 
-    } catch (error) {  
+      res.json({ clientesActivos });
+    } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Error al buscar los clientes inactivos" });
     }
   },
 
-  
+  getClientesInactivos: async (req, res) => {
+    try {
+
+      const clientesInactivos = await clientes.find({ estado: 0 });
+
+      res.json({ clientesInactivos });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al buscar los clientes inactivos" });
+    }
+  },
+
+
   getClientesPorPlan: async (req, res) => {
     try {
       const { plan: nombrePlan } = req.params;
-      
-      
+
+
       const planExistente = await Plan.findOne({ descripcion: nombrePlan });
-  
-      
+
+
       if (!planExistente) {
         return res.status(404).json({ error: "El plan especificado no existe.", clientesPorPlan: [] });
       }
-  
-      
+
+
       const clientesPorPlan = await clientes.find({ idPlan: planExistente._id });
-  
-    
+
+
       return res.json({ clientesPorPlan });
-      
+
     } catch (error) {
       console.error(error);
-     
+
       return res.status(500).json({ error: "Error al buscar los clientes por plan" });
     }
   },
+<<<<<<< HEAD
   
   getClientesPorMesCumpleanios: async (req, res) => {     
+=======
+
+  getClientesPorMesCumpleanios: async (req, res) => {
+>>>>>>> b9ed8c5ecdfd68e413e1170cef949433527206ce
     try {
       const { mes } = req.params;
 
-      
       const numeroMes = parseInt(mes);
 
-      
       const clientesCumpleaniosMes = await clientes.find({
         $expr: { $eq: [{ $month: "$fechaNacimiento" }, numeroMes] }
       });
@@ -104,7 +113,7 @@ const httpClientes = {
   postClientes: async (req, res) => {
     try {
       const {
-        nombre, 
+        nombre,
         documento,
         direccion,
         telefono,
@@ -115,10 +124,10 @@ const httpClientes = {
         observaciones,
         fechaVencimiento,
         fechaNacimiento,
-       
+
       } = req.body;
       const plan = await Plan.findById(idPlan);
-      if(!plan){
+      if (!plan) {
         return res.status(400).json({ error: "El plan especificado no existe." });
       }
       const Cliente = new clientes({
@@ -127,7 +136,7 @@ const httpClientes = {
         direccion,
         telefono,
         email,
-        idPlan, 
+        idPlan,
         foto,
         objetivo,
         observaciones,
@@ -144,54 +153,90 @@ const httpClientes = {
   },
 
 
-postSeguimiento: async (req, res) => {
+  postSeguimiento: async (req, res) => {
+    const { id } = req.params;
 
-  const calcularIMC = (peso, estatura) => {
-    const alturaMetros = estatura / 100; // Convertir estatura de cm a metros
-    return peso / (alturaMetros * alturaMetros); // Calcular IMC según la fórmula
-  
-};
-  
-  const { id } = req.params;
-
-  
-  console.log("ID del cliente:", req.params.id);
-  try {
-      const { fecha, peso,  tBrazo, tPierna, tCintura, estatura } = req.body;
+    console.log("ID del cliente:", req.params.id);
+    try {
+      const { fecha, peso, tBrazo, tPierna, tCintura, estatura } = req.body;
 
       const IMC = calcularIMC(peso, estatura)
-     
+
       const seguimiento = {
-          fecha,
-          peso,
-          IMC,
-          tBrazo,
-          tPierna,
-          tCintura,
-          estatura,
+        fecha,
+        peso,
+        IMC,
+        tBrazo,
+        tPierna,
+        tCintura,
+        estatura,
       };
-      
+
       console.log(seguimiento);
-      
+
       const clienteActualizado = await clientes.findByIdAndUpdate(
-          id,
-          { $addToSet: { seguimiento: seguimiento } }, 
-          { new: true }
+        id,
+        { $addToSet: { seguimiento: seguimiento } },
+        { new: true }
       );
-console.log(clienteActualizado)
-   
+      console.log(clienteActualizado)
+
       if (!clienteActualizado) {
-          return res.status(404).json({ error: "Cliente no encontrado" });
+        return res.status(404).json({ error: "Cliente no encontrado" });
       }
 
-     
+
       res.json({ seguimiento });
-  } catch (error) {
+    } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
-  }
-},
+    }
+  },
+  // putSeguimiento: async (req, res) => {
+  //   const { id } = req.params;
+  //   const { _id, createAt, ...resto } = req.body;
+  //   console.log(resto);
 
+  //   const Cliente = await clientes.findByIdAndUpdate(id, createAt, resto, {
+  //     new: true,
+  //   });
+  //   res.json({ Cliente });
+  // },
+  putSeguimiento: async (req, res) => {
+    const { id, seguimientoId } = req.params; // Suponiendo que el seguimientoId también se pasa en los parámetros de la URL
+    const { fecha, peso, tBrazo, tPierna, tCintura, estatura } = req.body;
+  
+    try {
+      // Calcula el nuevo IMC si peso o estatura han cambiado
+      const IMC = calcularIMC(peso, estatura);
+  
+      // Encuentra al cliente y actualiza el seguimiento específico
+      const clienteActualizado = await clientes.findOneAndUpdate(
+        { _id: id, "seguimiento._id": seguimientoId },
+        {
+          $set: {
+            "seguimiento.$.fecha": fecha,
+            "seguimiento.$.peso": peso,
+            "seguimiento.$.IMC": IMC,
+            "seguimiento.$.tBrazo": tBrazo,
+            "seguimiento.$.tPierna": tPierna,
+            "seguimiento.$.tCintura": tCintura,
+            "seguimiento.$.estatura": estatura,
+          },
+        },
+        { new: true }
+      );
+  
+      if (!clienteActualizado) {
+        return res.status(404).json({ error: "Cliente o seguimiento no encontrado" });
+      }
+  
+      res.json({ seguimiento: clienteActualizado.seguimiento });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
+    }
+  },
   putClientes: async (req, res) => {
     try {
       const { id } = req.params;
@@ -206,6 +251,7 @@ console.log(clienteActualizado)
     }
   },
 
+<<<<<<< HEAD
   putSeguimiento: async (req, res) => {
     try {
       const { id } = req.params;
@@ -234,20 +280,37 @@ console.log(seguimientoActualizado);
           { estado: 1 },
           { new: true }
         );
+=======
+>>>>>>> b9ed8c5ecdfd68e413e1170cef949433527206ce
   
-        res.json({ Cliente: clienteActivado });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Error al activar el cliente" });
-      
+
+ 
+
+  putClientesActivar: async (req, res) => {
+
+    try {
+      const { id } = req.params;
+
+
+      const clienteActivado = await clientes.findByIdAndUpdate(
+        id,
+        { estado: 1 },
+        { new: true }
+      );
+
+      res.json({ Cliente: clienteActivado });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error al activar el cliente" });
+
     }
   },
   putClientesDesactivar: async (req, res) => {
-    
+
     try {
       const { id } = req.params;
-      
-      
+
+
       const clienteDesactivado = await clientes.findByIdAndUpdate(
         id,
         { estado: 0 },
@@ -258,9 +321,9 @@ console.log(seguimientoActualizado);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Error al desactivar el cliente" });
-    
-  }
-},
+
+    }
+  },
   putListar: async (req, res) => {
     const { id } = req.params;
     const { _id, estado, createAt, ...resto } = req.body;
@@ -271,17 +334,10 @@ console.log(seguimientoActualizado);
     });
     res.json({ Cliente });
   },
-  putSeguimiento: async (req, res) => {
-    const { id } = req.params;
-    const { _id, createAt, ...resto } = req.body;
-    console.log(resto);
-
-    const Cliente = await clientes.findByIdAndUpdate(id, createAt, resto, {
-      new: true,
-    });
-    res.json({ Cliente });
-  },
+  
+  
 };
+
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -304,9 +360,9 @@ const enviarAlerta = async (ingreso) => {
     console.log("Correo electrónico de alerta enviado con éxito.");
   } catch (error) {
     console.error("Error al enviar el correo electrónico de alerta:", error);
-  }
-};
+  };
 
+}
 
 
 export default httpClientes;
