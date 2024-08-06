@@ -23,6 +23,7 @@ router.post(
     check("idcliente", "Id se requiere un mongoId valido").isMongoId(),
     check("idplan", "Id plan no puede estar vacio").notEmpty(),
     check("idplan", "Id se requiere un mongoId valido").isMongoId(),
+    check("fechaVencimiento","La fecha de vencimiento no puede estar vacio").notEmpty(),
     check("idcliente").custom(helpersClientes.validarExistaId),
     validarCampos,
   ],

@@ -12,6 +12,7 @@ const pagoSchema = new mongoose.Schema({
     required: true,
   },
   valor: { type: Number, default: 1 },
+  fechaVencimiento:{type:Date,required:true},
   createAt: { type: Date, default: Date.now },
   estado:{type:Number,default:1},
 });

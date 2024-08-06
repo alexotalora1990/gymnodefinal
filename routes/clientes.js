@@ -40,11 +40,7 @@ router.post(
     check("foto", "la foto no puede estar vacio").notEmpty(),
     check("objetivo", "El objetivo no puede estar vacio").notEmpty(),
     check("observaciones", "Las observaciones no puede estar vacio").notEmpty(),
-    check(
-      "fechaVencimiento",
-      "La fecha de vencimiento no puede estar vacio"
-    ).notEmpty(),
-
+    
     check("documento", "Solo numeros").isNumeric(),
     check("telefono", "Solo numeros").isNumeric(),
     check("email", "ingrese un correo valido").isEmail(),
@@ -116,7 +112,7 @@ router.put(
   );
 
   router.put(
-    "Seguimiento/:id",
+    "/seguimiento/:id",
     [
       check("id", "Se necesita un mongoid valido").isMongoId(),
       check("id").custom(helpersClientes.validarExistaId),
@@ -124,5 +120,7 @@ router.put(
     ],
     httpClientes.putSeguimiento
   );
+
+ 
 
 export default router;
