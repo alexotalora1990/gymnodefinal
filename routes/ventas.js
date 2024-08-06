@@ -15,9 +15,9 @@ const router = Router();
 router.get('/', httpVenta.getVentas); // Ruta para obtener todas las ventas
 router.get('/:id', httpVenta.getVentasId); // Ruta para obtener una venta por su ID
 
-router.get('/porDia', httpVenta.getVentasPorDia); 
+router.get('/porDia/:dia', httpVenta.getVentasPorDia); 
  
-router.get('/ventasFecha',httpVenta.getVentasEntreFechas);  
+router.get('/porFecha/:fechaInicio/:fechaFin',httpVenta.getVentasEntreFechas);  
 
 router.post('/', [ 
   check('idcliente', 'Id cliente no puede estar vacío').notEmpty(),
@@ -29,7 +29,7 @@ router.post('/', [
   check('cantidad', 'Cantidad no puede estar vacía').notEmpty(),
   check('idcliente').custom(helpersClientes.validarExistaId), 
   check('idsede').custom(helpersSedes.validarExistaId),
-  check('idproducto').custom(helpersProductos.validarExistaId), 
+  check('idproducto').custom(helpersProductos.validarExistaId),  
   validarCampos,
 ], httpVenta.postVentas); // Ruta para crear una nueva venta
  

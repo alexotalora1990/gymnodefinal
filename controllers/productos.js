@@ -52,9 +52,9 @@ const httpProducto = {
 
   postcrearProducto: async (req, res) => {
     try {
-      const { _id, nombre, valor, cantidad} = req.body;
+      const { _id, nombre, valor, cantidad, vencimiento, diasAlerta} = req.body;
       
-      const nuevoProducto = new Producto({ _id, nombre, valor, cantidad});
+      const nuevoProducto = new Producto({ _id, nombre, valor, cantidad, vencimiento, diasAlerta});
       await nuevoProducto.save();
       res.status(201).json({ nuevoProducto});
     } catch (error) {
