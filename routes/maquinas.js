@@ -6,7 +6,7 @@ import helpersMaquinas from "../helpers/maquinas.js";
 import helpersSedes from "../helpers/sedes.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 
-
+ 
 const router = Router();
 
 router.get("/", httpMaquina.getMaquina);

@@ -112,15 +112,9 @@ router.put(
   );
 
   router.put(
-    "/seguimiento/:id",
-    [
-      check("id", "Se necesita un mongoid valido").isMongoId(),
-      check("id").custom(helpersClientes.validarExistaId),
-      validarCampos,
-    ],
-    httpClientes.putSeguimiento
-  );
+    "/:id/seguimiento/:seguimientoId",    httpClientes.putSeguimiento  );
 
  
 
 export default router;
+ 
