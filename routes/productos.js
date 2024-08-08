@@ -33,10 +33,13 @@ httpProducto.getProductosInactivos);
 router.post(
   "/",
   [
-    validarJWT,
+    // validarJWT,
     check("nombre", "Descripcion no puede estar vacio").notEmpty(),
     check("cantidad", "Id plan no puede estar vacio").notEmpty(),
     check("valor", "valor no puede estar vacio").notEmpty(),
+    check("valor", "valor no puede estar vacio").notEmpty(),
+    check("vencimiento", "valor no puede estar vacio").notEmpty(),
+    check("diasAlerta", "valor no puede estar vacio").notEmpty(), 
     validarCampos,
    
   ],
