@@ -87,13 +87,8 @@ const httpClientes = {
       return res.status(500).json({ error: "Error al buscar los clientes por plan" });
     }
   },
-<<<<<<< HEAD
-  
-  getClientesPorMesCumpleanios: async (req, res) => {     
-=======
 
   getClientesPorMesCumpleanios: async (req, res) => {
->>>>>>> b9ed8c5ecdfd68e413e1170cef949433527206ce
     try {
       const { mes } = req.params;
 
@@ -251,37 +246,6 @@ const httpClientes = {
     }
   },
 
-<<<<<<< HEAD
-  putSeguimiento: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { peso, ...resto } = req.body;
-      console.log(id);
-
-      const seguimientoActualizado = await clientes.findByIdAndUpdate(id, { peso, ...resto }, { new: true });
-console.log(seguimientoActualizado);
-      res.json({ Seguimiento: seguimientoActualizado });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error al actualizar el seguimiento" });
-    }
-  },
-
-
- 
-  putClientesActivar: async (req, res) => {
-    
-      try {
-        const { id } = req.params;
-        
-        
-        const clienteActivado = await clientes.findByIdAndUpdate(
-          id,
-          { estado: 1 },
-          { new: true }
-        );
-=======
->>>>>>> b9ed8c5ecdfd68e413e1170cef949433527206ce
   
 
  

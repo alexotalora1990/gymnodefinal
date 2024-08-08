@@ -17,7 +17,7 @@ import sedes from './routes/sedes.js';
 import ventas from './routes/ventas.js';
 import usuarios from './routes/usuarios.js';
 import compras from './routes/compras.js';
-import proveedores from './routes/proveedores.js';
+import Proveedores from './routes/proveedores.js';
 
 import Cliente from './models/clientes.js';
 
@@ -38,7 +38,7 @@ app.use('/api/sedes', sedes);
 app.use('/api/ventas', ventas);
 app.use('/api/usuarios', usuarios);
 app.use('/api/compras', compras);
-app.use('/api/proveedores', proveedores);
+app.use('/api/proveedores', Proveedores);
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);
