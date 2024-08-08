@@ -112,7 +112,7 @@ router.put(
   );
 
   router.put(
-    "/:id/seguimiento/:seguimientoId",    httpClientes.putSeguimiento  );
+    "/seguimiento/:id/:seguimientoId",    httpClientes.putSeguimiento  );
 
  
 
