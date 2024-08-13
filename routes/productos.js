@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/",
 [
-validarJWT
+// validarJWT
 ],
  httpProducto.getProducto);
 router.get("/producto/:id",
