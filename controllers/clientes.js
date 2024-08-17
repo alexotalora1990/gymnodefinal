@@ -189,7 +189,7 @@ const httpClientes = {
       res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
     }
   },
-  
+
 
 
   putSeguimiento: async (req, res) => {
@@ -231,6 +231,7 @@ console.log(seguimiento);
     }
 },
  
+
   putClientes: async (req, res) => {
     try {
       const { id } = req.params;
@@ -239,14 +240,14 @@ console.log(seguimiento);
       const clienteActualizado = await clientes.findByIdAndUpdate(id, { nombre, ...resto }, { new: true });
 
       res.json({ Cliente: clienteActualizado });
-    } catch (error) {
+    } catch (error) { 
       console.error(error);
       res.status(500).json({ error: "Error al actualizar el cliente" });
     }
   },
 
 
- 
+
 
   putClientesActivar: async (req, res) => {
 
