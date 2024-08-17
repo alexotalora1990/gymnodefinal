@@ -13,12 +13,12 @@ const clienteSchema=new mongoose.Schema({
     foto:{type:String,default:"",required:true},
     objetivo:{type:String,required:true},
     observaciones:{type:String,required:true},
-    plan:{type:String,required:true},
-    fechaVencimiento:{type:Date,required:true},
+    plan:{type:String,required:true}, 
+    
     seguimiento:[{
         fecha:{type:Date,required:true, required:true}, 
         peso:{type:Number,default:0, required:true},
-        IMC:{type:Number,default:0,required:true},
+        IMC:{type:Number,default:0,required:true}, 
         tBrazo:{type:Number,default:0, required:true},
         tPierna:{type:Number,default:0, required:true},
         tCintura:{type:Number,default:0, required:true},
@@ -29,4 +29,4 @@ const clienteSchema=new mongoose.Schema({
     
 })
 
-export default mongoose.model("Cliente",clienteSchema)
+export default mongoose.model("Cliente",clienteSchema)     

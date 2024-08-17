@@ -24,7 +24,11 @@ const httpProveedor = {
 
     postProveedor: async (req, res) => {
         try {
+          
             const { nombre,documento, direccion, telefono, correo } = req.body;
+            if (!correo) {
+                return res.status(400).json({ msg: "El correo no puede estar vacío" });
+            }
             const proveedores = new Proveedor({ nombre,documento, direccion, telefono, correo });
             await proveedores.save()
             res.json({ proveedores })
@@ -34,10 +38,22 @@ const httpProveedor = {
         }
     },
     putProveedor: async (req, res) => {
-        const { id } = req.params;
-        const { nombre, ...resto } = req.body;
-        const proveedores = await Proveedor.findByIdAndUpdate(id, { nombre, ...resto }, { new: true })
-        res.json({ proveedores })
+        try {
+            const { id } = req.params;
+            const { _id, ...resto } = req.body;
+    
+            // Actualiza el proveedor sin incluir el campo _id
+            const proveedores = await Proveedor.findByIdAndUpdate(id, resto, { new: true });
+    
+            if (!proveedores) {
+                return res.status(404).json({ msg: "Proveedor no encontrado" });
+            }
+    
+            res.json({ proveedores });
+        } catch (error) {
+            console.error("Error al actualizar el proveedor:", error);
+            res.status(500).json({ msg: "Error al actualizar el proveedor" });
+        }
     },
     putProveedorActivo: async (req, res)=>{
         const {id} = req.params;
