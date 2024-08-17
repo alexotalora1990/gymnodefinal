@@ -1,8 +1,9 @@
 import Proveedor from "../models/proveedor.js";
 
-const helperProveedor = {
+const helpersProveedor = {
 
     validarExistaProveedorID: async (id) => {
+       
         const existe = await Proveedor.findById(id);
         if (existe == undefined) {
             throw new Error("Id del Proveedor no existe")
@@ -25,4 +26,4 @@ const helperProveedor = {
   
 }
 
-export default helperProveedor
+export default helpersProveedor

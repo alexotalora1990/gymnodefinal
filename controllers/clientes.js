@@ -119,7 +119,7 @@ const httpClientes = {
         foto,
         objetivo,
         observaciones,
-        fechaVencimiento,
+        
         fechaNacimiento,
 
       } = req.body;
@@ -137,7 +137,7 @@ const httpClientes = {
         foto,
         objetivo,
         observaciones,
-        fechaVencimiento,
+        
         fechaNacimiento,
         plan: plan.descripcion
       });
@@ -160,9 +160,9 @@ const httpClientes = {
       const IMC = calcularIMC(peso, estatura)
 
       const seguimiento = {
-        fecha,
+        fecha, 
         peso,
-        IMC,
+        IMC,  
         tBrazo,
         tPierna,
         tCintura,
@@ -176,7 +176,7 @@ const httpClientes = {
         { $addToSet: { seguimiento: seguimiento } },
         { new: true }
       );
-      console.log(clienteActualizado)
+      console.log(clienteActualizado) 
 
       if (!clienteActualizado) {
         return res.status(404).json({ error: "Cliente no encontrado" });
@@ -189,43 +189,49 @@ const httpClientes = {
       res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
     }
   },
+
+
+
   putSeguimiento: async (req, res) => {
     try {
-      const { id, idsiguimiento } = req.params; // Obtenemos el id del cliente y del seguimiento desde los params
-      const { fecha, peso, tBrazo, tPierna, tCintura, estatura } = req.body;
-  
-      // Busca al cliente por su ID
-      const cliente = await clientes.findById(id);
-  
-      if (!cliente) {
-        return res.status(404).json({ error: "Cliente no encontrado" });
-      }
-  
-      // Busca el seguimiento específico dentro del array de seguimientos
-      const seguimiento = cliente.seguimiento.id(idsiguimiento);
-      if (!seguimiento) {
-        return res.status(404).json({ error: "Seguimiento no encontrado" });
-      }
-  
-      // Actualiza los campos del seguimiento
-      seguimiento.fecha = fecha;
-      seguimiento.peso = peso;
-      seguimiento.IMC = calcularIMC(peso, estatura);
-      seguimiento.tBrazo = tBrazo;
-      seguimiento.tPierna = tPierna;
-      seguimiento.tCintura = tCintura;
-      seguimiento.estatura = estatura;
-  
-      // Guarda los cambios en el cliente
-      await cliente.save();
-  
-      res.json({ seguimiento });
+        const { id, idseguimiento } = req.params;
+        const { fecha, peso, tBrazo, tPierna, tCintura, estatura } = req.body;
+
+        // Busca al cliente por su ID
+        const cliente = await clientes.findById(id);
+
+        if (!cliente) {
+            return res.status(404).json({ error: "Cliente no encontrado" });
+        }
+
+        // Busca el seguimiento específico dentro del array de seguimientos
+        const seguimiento = cliente.seguimiento.id(idseguimiento);
+console.log(seguimiento);
+
+        if (!seguimiento) {
+            return res.status(404).json({ error: "Seguimiento no encontrado" });
+        }
+
+        // Actualiza los campos del seguimiento
+        seguimiento.fecha = fecha;
+        seguimiento.peso = peso;
+        seguimiento.IMC = calcularIMC(peso, estatura);
+        seguimiento.tBrazo = tBrazo;
+        seguimiento.tPierna = tPierna;
+        seguimiento.tCintura = tCintura;
+        seguimiento.estatura = estatura;
+
+        // Guarda los cambios en el cliente
+        await cliente.save();
+
+        res.json({ seguimiento });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error al actualizar el seguimiento" });
+        console.error(error);
+        res.status(500).json({ error: "Error al actualizar el seguimiento" });
     }
-  },
-  
+},
+ 
+
   putClientes: async (req, res) => {
     try {
       const { id } = req.params;
@@ -239,7 +245,6 @@ const httpClientes = {
       res.status(500).json({ error: "Error al actualizar el cliente" });
     }
   },
-
 
 
 

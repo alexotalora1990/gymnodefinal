@@ -68,27 +68,27 @@ const httpUsuarios = {
   },
   putUsuarios: async (req, res) => {
     const { id } = req.params;
-    const { _id, nombre, createAt, ...resto } = req.body; 
+    const { _id,  createAt, ...resto } = req.body; 
     console.log(resto);
     const Usuario = await usuarios.findByIdAndUpdate(id, { $set: resto }, { new: true });
     res.json({ Usuario });
   },
   putUsuariosActivar: async (req, res) => {
-    try {
-      const { id } = req.params;
+    try {  
+      const { id } = req.params; 
       const usuarioActivo = await usuarios.findByIdAndUpdate(id, { estado: 1 }, { new: true });
       res.json({ usuarioActivo });
     } catch (error) {
       console.log(error);
-      res.status(400).json({ error: "No se pudo activar el usuario" });
+      res.status(400).json({ error: "No se pudo activar el usuario" }); 
     }
   },
-  putUsuariosDesactivar: async (req, res) => {
-    try {
+  putUsuariosDesactivar: async (req, res) => { 
+    try {   
       const { id } = req.params;
       const usuarioInactivo = await usuarios.findByIdAndUpdate(id, { estado: 0 }, { new: true });
       res.json({ usuarioInactivo });
-    } catch (error) {
+    } catch (error) {   
       console.log(error);
       res.status(400).json({ error: "No se pudo desactivar el usuario" });
     }
