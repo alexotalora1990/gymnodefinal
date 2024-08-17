@@ -9,4 +9,4 @@ const ProveedorSchema = new mongoose.Schema({
     estado:{type:Number,default:1}
 })
 
-export default mongoose.model("Proveedor", ProveedorSchema)
+export default mongoose.model("Proveedor", ProveedorSchema)     

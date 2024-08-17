@@ -1,13 +1,13 @@
 import {Router} from 'express'
-import { check } from 'express-validator'
-import { validarCampos } from '../middleware/validar-campos.js'
-import { validarJWT } from '../middleware/validar-jwt.js'
+import { check } from "express-validator";
+import { validarCampos } from "../middlewares/validar-campos.js";
+import { validarJWT } from "../middlewares/validar-jwt.js";
 import httpProveedor from '../controllers/proveedor.js'
-import helperProveedor from '../helpers/proveedor.js'
+import helpersProveedor from"../helpers/proveedor.js"
 
 const router = Router()
 
-router.get('/listar',[
+router.get('/',[
     // validarJWT,
     validarCampos
 ], httpProveedor.getProveedor)
@@ -35,16 +35,16 @@ router.post('/agregar', [
     check('telefono', 'El espacio del telefono no puede estar vacio').notEmpty(),
     check('telefono', 'Se necesita que el telefono sea numerico').isNumeric(),
     check('correo', 'Se necesita agregar un correo').notEmpty(),
-    check('correo').custom(helperProveedor.CorreoUnicoProveedor),
+    check('correo').custom(helpersProveedor.CorreoUnicoProveedor),
     check("documento", "Solo numeros").isNumeric(),
-    check("documento").custom(helperProveedor.validarDocumento),
-    validarCampos
+    check("documento").custom(helpersProveedor.validarDocumento),
+    validarCampos 
 ], httpProveedor.postProveedor)
 
 router.put('/editar/:id',[
     // validarJWT,
     check('id', 'Se necesita un mongoID que sea valido').isMongoId(),
-    check('id').custom(helperProveedor.validarExistaProveedorID),
+    check('id').custom(helpersProveedor.validarExistaProveedorID), 
     validarCampos
 ], httpProveedor.putProveedor)
 
@@ -52,13 +52,13 @@ router.put('/editar/:id',[
 router.put('/activar/:id', [
     // validarJWT,
     check('id', 'Se necesita un mongoID que sea valido').isMongoId(),
-    check('id').custom(helperProveedor.validarExistaProveedorID),
+    check('id').custom(helpersProveedor.validarExistaProveedorID),
     validarCampos
 ], httpProveedor.putProveedorActivo)
 router.put('/desactivar/:id', [
     // validarJWT,
     check('id', 'Se necesita un mongoID que sea valido').isMongoId(),
-    check('id').custom(helperProveedor.validarExistaProveedorID),
+    check('id').custom(helpersProveedor.validarExistaProveedorID),
     validarCampos
 ], httpProveedor.putProveedorInactivo)
 

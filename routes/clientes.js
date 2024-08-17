@@ -17,7 +17,7 @@ router.get("/",[
   // validarJWT  
 ], httpClientes.getClientes);
 router.get("/cliente/:id", httpClientes.getClientes);
-router.get("/activos", httpClientes.getClientesActivos);
+router.get("/activos", httpClientes.getClientesActivos); 
 router.get("/inactivos", httpClientes.getClientesInactivos);
 router.get("/plan/:plan", httpClientes.getClientesPorPlan);
 router.get("/cumpleanios/mes/:mes", httpClientes.getClientesPorMesCumpleanios);
@@ -37,13 +37,13 @@ router.post(
     ).notEmpty(),
     check("idPlan", "El plan no puede estar vacio").notEmpty(),
     check("idPlan", "se requiere un mongoId valido").isMongoId(),
-    check("foto", "la foto no puede estar vacio").notEmpty(),
-    check("objetivo", "El objetivo no puede estar vacio").notEmpty(),
+    check("foto", "la foto no puede estar vacio").notEmpty(),  
+    check("objetivo", "El objetivo no puede estar vacio").notEmpty(), 
     check("observaciones", "Las observaciones no puede estar vacio").notEmpty(),
     
-    check("documento", "Solo numeros").isNumeric(),
+    check("documento", "Solo numeros").isNumeric(), 
     check("telefono", "Solo numeros").isNumeric(),
-    check("email", "ingrese un correo valido").isEmail(),
+    check("email", "ingrese un correo valido").isEmail(), 
 
     check("email").custom(helpersClientes.validarEmailUnico),
     check("documento").custom(helpersClientes.validarDocumento),
@@ -111,10 +111,7 @@ router.put(
     httpClientes.putListar
   );
 
-  router.put(
-
-
-    "/seguimiento/:id",
+  router.put(   "/:id/seguimiento/:idseguimiento",
     [
       check("id", "Se necesita un mongoid valido").isMongoId(),
       check("id").custom(helpersClientes.validarExistaId),
@@ -124,6 +121,6 @@ router.put(
   );
 
  
-
+ 
 export default router;
  

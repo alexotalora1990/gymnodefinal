@@ -49,7 +49,7 @@ router.post(
 router.put(
   "/:id",
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,
@@ -60,7 +60,7 @@ router.put(
 router.put(
   '/activar/:id',
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,
@@ -72,7 +72,7 @@ router.put(
 router.put(
   '/desactivar/:id',
   [
-    validarJWT,
+    // validarJWT,
     check("id", "Se necesita un mongoid valido").isMongoId(),
     check("id").custom(helpersProductos.validarExistaId),
     validarCampos,

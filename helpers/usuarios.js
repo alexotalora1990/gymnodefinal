@@ -9,17 +9,11 @@ const helpersUsuarios={
         }
     },
 
-    validarDocumento:async (documento)=>{
-      const existe = await Usuario.findOne({documento})
-      if (existe){
-          throw new Error ("Cliente ya Existe")
-      }
-  },
-  
+    
     validarExistaId:async (id)=>{
         const existe = await Usuario.findById(id)
         if (existe==undefined){
-            throw new Error ("Id no existe")
+            throw new Error ("Id no existe")   
         }
     },
 
